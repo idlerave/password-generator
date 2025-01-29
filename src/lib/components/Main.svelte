@@ -28,7 +28,7 @@
     buttonPressed = true;
   }
 
-  // Makes the icon undraggable. Idk, just a pet peeve, really.
+  // Makes the icon "undownloadable". Idk, just a pet peeve, really.
   function disableRightClick(event: MouseEvent)
   {
     event.preventDefault();
@@ -50,7 +50,7 @@
     </div>
 
     <button
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5"
+      class="inline-flex justify-center items-center gap-2 border font-semibold rounded-full px-4 py-2 leading-5 text-sm border-indigo-700 bg-indigo-700 text-white hover:text-white hover:bg-indigo-600 hover:border-indigo-600 focus:ring focus:ring-indigo-400/50 active:bg-indigo-700 active:border-indigo-700 dark:focus:ring-indigo-400/90"
       on:click={generatePassword}>Generate
     </button>
 
