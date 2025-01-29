@@ -94,7 +94,7 @@
     </button>
 
       <p class="mb-5 mt-5 text-gray-900 dark:text-gray-100">{password}</p>
-      <input type="range" min="8" max="24" bind:value={passwordLength} class="w-full slider" />
+      <input type="range" min="8" max="32" bind:value={passwordLength} class="w-full slider" />
       <p class="text-gray-900 dark:text-gray-100 mt-5">Current meows: {passwordLength}</p>
     </div>
     <p class="text-gray-500 dark:bg-gray-800 dark:text-gray-400 mt-5">@pravariar</p>
