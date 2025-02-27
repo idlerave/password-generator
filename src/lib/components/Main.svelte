@@ -1,8 +1,8 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { generatePassword } from "$lib/components/Generator";
-    import { Plus } from 'lucide-svelte';
-    import { slide } from 'svelte/transition';
+    import { Github, Settings } from 'lucide-svelte';
+    import { slide, fade } from 'svelte/transition';
 
     // You can guess what this is.
     let password: String;
@@ -14,24 +14,9 @@
     let numbers = true;
     let symbols = true;
     let isDropdownOpen = false;
+    let dropdownElement: HTMLElement;
+    let boom = false;
   
-    // This toggles the site's dark theme.
-    function toggleDarkMode()
-    {
-      if (localStorage.getItem("darkMode") === "true")
-      {
-        localStorage.setItem("darkMode", "false");
-        document.documentElement.classList.remove("dark");
-        isDarkMode = false;
-      }
-      else
-      {
-        localStorage.setItem("darkMode", "true");
-        document.documentElement.classList.add("dark");
-        isDarkMode = true;
-      }
-    }
-
     // If the button hasn't been pressed,
     // this will act as a placeholder for the password.
     if (buttonPressed === false)
@@ -52,25 +37,38 @@
 }
   
     // Makes the icon "undownloadable". Idk, just a pet peeve, really.
-    function disableRightClick(event: MouseEvent)
-    {
+    function disableRightClick(event: MouseEvent) {
       event.preventDefault();
     }
   
     // Checks if at least one option is selected
     function validateOptions(option: string): void {
+      const enabledOptions = [uppercase, lowercase, numbers, symbols].filter(Boolean).length;
 
-        const enabledOptions = [uppercase, lowercase, numbers, symbols].filter(Boolean).length;
-        
-        if (enabledOptions === 0) {
-            switch(option) {
-                case 'uppercase': uppercase = true; break;
-                case 'lowercase': lowercase = true; break;
-                case 'numbers': numbers = true; break;
-                case 'symbols': symbols = true; break;
-            }
-        }
+      if (enabledOptions === 0) {
+          switch(option) {
+              case 'uppercase': uppercase = true; break;
+              case 'lowercase': lowercase = true; break;
+              case 'numbers': numbers = true; break;
+              case 'symbols': symbols = true; break;
+          }
+      }
+
     }
+
+    // Closes the dropdown when clicking outside of its place
+    onMount(() => {
+      const handleClick = (event: MouseEvent) => {
+        if (dropdownElement && !dropdownElement.contains(event.target as Node) && isDropdownOpen) {
+          isDropdownOpen = false;
+        }
+      };
+      document.addEventListener('click', handleClick);
+
+      return () => {
+        document.removeEventListener('click', handleClick);
+      };
+    });
 
     function toggleDropdown() {
         isDropdownOpen = !isDropdownOpen;
@@ -78,10 +76,10 @@
 
 </script>
   
-  <section class="flex flex-col items-center justify-between h-screen bg-gray-200 dark:bg-gray-800 font-poppins">
+  <section class="flex flex-col items-center justify-between h-screen bg-gray-200 dark:bg-gray-800">
     <div class="flex flex-col items-center justify-center flex-grow">
       <div class="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg text-center">
-        <div class="flex justify-center mb-4">
+        <div class="flex justify-center mb-4 text-amber-300">
             <button 
                 class="bg-transparent border-0 cursor-pointer hover:scale-110 transition-transform duration-200 focus:outline-none"
                 on:click={generate}
@@ -100,16 +98,19 @@
         <input type="range" min="8" max="32" bind:value={passwordLength} class="w-full slider" />
         <p class="text-gray-900 dark:text-gray-100 mt-5">Current meows: {passwordLength}</p>
 
-        <div class="flex justify-between items-center mt-8 w-full relative">
+        <div class="flex justify-center items-center mt-8 w-full relative">
           <div>
-            <button 
-              class="btn btn-sm btn-ghost flex justify-center items-center gap-1"
-              on:click={toggleDropdown}>
-            <Plus class="h-4 w-4 text-white" />
+            <button
+              class="btn btn-sm btn-ghost flex justify-center items-center gap-1 transition-transform duration-300"
+              class:rotate-180={isDropdownOpen}
+              on:click|stopPropagation={toggleDropdown}
+            >
+            <Settings class="h-4 w-4 text-white hover:text-gray-300 transition-colors duration-300"/>
             </button>
             
             {#if isDropdownOpen}
             <div 
+              bind:this={dropdownElement}
               class="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 w-64 bg-white dark:bg-gray-900 shadow-2xl rounded-xl p-4 z-50 border border-gray-100 dark:border-gray-700"
               transition:slide={{ duration: 200 }}
             >
@@ -175,12 +176,35 @@
           </div>
         </div>
       </div>
-      <p class="text-gray-500 dark:bg-gray-800 dark:text-gray-400 mt-5">@pravariar</p>
+      <p class="text-gray-500 dark:bg-gray-800 dark:text-gray-400 mt-5 hover-text">
+        {#each [...'@pravariar'] as letter}
+          <span>{letter}</span>
+        {/each}
+      </p>
+      <a href="https://github.com/idlerave" target="_blank">
+        <Github class="text-gray-500 hover:text-gray-100 transition-colors duration-300 mt-3"/>
+      </a>
     </div>
   </section>
   
-  <footer class="bg-gray-200 dark:bg-gray-800">
-    <div class="text-center w-full mx-auto max-w-screen-xl p-4">
-      <p class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Powered by Vercel :3</p>
-    </div>
-  </footer>
+
+
+  <style>
+    .hover-text {
+      display: inline-block;
+      cursor: default;
+    }
+    
+    .hover-text span {
+      display: inline-block;
+      transition: color 150ms ease;
+    }
+    
+    .hover-text span:hover {
+      color: #ffffff;
+    }
+  
+    .hover-text span:hover + span {
+      color: #e7e7e7;
+    }
+  </style>
