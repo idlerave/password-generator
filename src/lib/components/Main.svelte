@@ -1,21 +1,20 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { generatePassword } from "$lib/components/Generator";
-    import { Github, Settings } from 'lucide-svelte';
+    import { Github, Settings, Copy } from 'lucide-svelte';
     import { slide, fade } from 'svelte/transition';
+    import { copyToClipboard } from "$lib/components/Clipboard";
 
     // You can guess what this is.
     let password: String;
     let passwordLength = 12;
     let buttonPressed = false;
-    let isDarkMode = false;
     let uppercase = true;
     let lowercase = true;
     let numbers = true;
     let symbols = true;
     let isDropdownOpen = false;
     let dropdownElement: HTMLElement;
-    let boom = false;
   
     // If the button hasn't been pressed,
     // this will act as a placeholder for the password.
@@ -76,9 +75,10 @@
 
 </script>
   
+  <!--shit's a mess-->
   <section class="flex flex-col items-center justify-between h-screen bg-gray-200 dark:bg-gray-800">
     <div class="flex flex-col items-center justify-center flex-grow">
-      <div class="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg text-center">
+      <div class="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg text-center w-[400px]">
         <div class="flex justify-center mb-4 text-amber-300">
             <button 
                 class="bg-transparent border-0 cursor-pointer hover:scale-110 transition-transform duration-200 focus:outline-none"
@@ -87,14 +87,27 @@
             <img
               src="/cat-dark.png"
               alt="Cute white cat icon - if you click it, it will generate a password"
-              class="w-16 h-16"
+              class="w-12 h-12"
               on:contextmenu={disableRightClick}
               draggable="false"
             />
             </button>
         </div>
-
-        <p class="mb-5 mt-5 text-gray-900 dark:text-gray-100 font-mono text-lg">{password}</p>
+        <div class="relative mb-4 font-mono text-lg px-4 py-3 rounded-md text-gray-100 flex items-center w-full">
+          <div class="w-6 flex-shrink-0"></div>
+          <span class="truncate flex-grow text-center">{password}</span>
+          <div class="flex-shrink-0 w-6 flex justify-between">
+              {#if buttonPressed}
+              <button 
+                  class="hover:text-indigo-400 transition-colors duration-150"
+                  on:click={() => copyToClipboard(password as string)}
+                  title="Copy to clipboard"
+              >
+                  <Copy size={16} />
+              </button>
+              {/if}
+          </div>
+      </div>
         <input type="range" min="8" max="32" bind:value={passwordLength} class="w-full slider" />
         <p class="text-gray-900 dark:text-gray-100 mt-5">Current meows: {passwordLength}</p>
 
