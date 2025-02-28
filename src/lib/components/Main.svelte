@@ -76,9 +76,9 @@
 </script>
   
   <!--shit's a mess-->
-  <section class="flex flex-col items-center justify-between h-screen bg-gray-200 dark:bg-gray-800">
+  <section class="flex flex-col items-center justify-between h-screen bg-gray-800">
     <div class="flex flex-col items-center justify-center flex-grow">
-      <div class="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg text-center w-[400px]">
+      <div class="bg-gray-900 p-8 rounded-lg shadow-lg text-center w-[400px]">
         <div class="flex justify-center mb-4 text-amber-300">
             <button 
                 class="bg-transparent border-0 cursor-pointer hover:scale-110 transition-transform duration-200 focus:outline-none"
@@ -109,7 +109,7 @@
           </div>
       </div>
         <input type="range" min="8" max="32" bind:value={passwordLength} class="w-full slider" />
-        <p class="text-gray-900 dark:text-gray-100 mt-5">Current meows: {passwordLength}</p>
+        <p class="text-gray-100 mt-5">Current meows: {passwordLength}</p>
 
         <div class="flex justify-center items-center mt-8 w-full relative">
           <div>
@@ -124,16 +124,16 @@
             {#if isDropdownOpen}
             <div 
               bind:this={dropdownElement}
-              class="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 w-64 bg-white dark:bg-gray-900 shadow-2xl rounded-xl p-4 z-50 border border-gray-100 dark:border-gray-700"
+              class="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 w-64 bg-gray-900 shadow-2xl rounded-xl p-4 z-50 border border-gray-700"
               transition:slide={{ duration: 200 }}
             >
               <div class="flex justify-center items-center mb-3">
-                <h3 class="font-bold text-gray-900 dark:text-gray-100 text-sm uppercase tracking-wide">Options</h3>
+                <h3 class="font-bold text-gray-100 text-sm uppercase tracking-wide">Options</h3>
               </div>
               
               <div class="space-y-3">
-                <div class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-800">
-                  <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Uppercase</span>
+                <div class="flex items-center justify-between py-2 border-b border-gray-800">
+                  <span class="text-sm font-medium text-gray-300">Uppercase</span>
                   <div class="relative inline-block w-10 align-middle select-none">
                     <input 
                       type="checkbox" 
@@ -145,8 +145,8 @@
                   </div>
                 </div>
                 
-                <div class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-800">
-                  <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Lowercase</span>
+                <div class="flex items-center justify-between py-2 border-b border-gray-800">
+                  <span class="text-sm font-medium text-gray-300">Lowercase</span>
                   <div class="relative inline-block w-10 align-middle select-none">
                     <input 
                       type="checkbox" 
@@ -158,8 +158,8 @@
                   </div>
                 </div>
                 
-                <div class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-800">
-                  <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Numbers</span>
+                <div class="flex items-center justify-between py-2 border-b border-gray-800">
+                  <span class="text-sm font-medium text-gray-300">Numbers</span>
                   <div class="relative inline-block w-10 align-middle select-none">
                     <input 
                       type="checkbox" 
@@ -172,7 +172,7 @@
                 </div>
                 
                 <div class="flex items-center justify-between py-2">
-                  <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Symbols</span>
+                  <span class="text-sm font-medium text-gray-300">Symbols</span>
                   <div class="relative inline-block w-10 align-middle select-none">
                     <input 
                       type="checkbox" 
@@ -189,7 +189,7 @@
           </div>
         </div>
       </div>
-      <p class="text-gray-500 dark:bg-gray-800 dark:text-gray-400 mt-5 hover-text">
+      <p class="bg-gray-800 text-gray-400 mt-5 hover-text">
         {#each [...'@pravariar'] as letter}
           <span>{letter}</span>
         {/each}
