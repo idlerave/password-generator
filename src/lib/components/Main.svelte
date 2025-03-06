@@ -1,8 +1,8 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { generatePassword } from "$lib/components/Generator";
-    import { Github, Settings, Copy } from 'lucide-svelte';
-    import { slide, fade } from 'svelte/transition';
+    import { Github, Settings, Copy, Check } from 'lucide-svelte';
+    import { slide, fade, crossfade } from 'svelte/transition';
     import { copyToClipboard } from "$lib/components/Clipboard";
 
     // You can guess what this is.
@@ -15,6 +15,7 @@
     let symbols = true;
     let isDropdownOpen = false;
     let dropdownElement: HTMLElement;
+    let isCopying = false;
   
     // If the button hasn't been pressed,
     // this will act as a placeholder for the password.
@@ -73,6 +74,14 @@
         isDropdownOpen = !isDropdownOpen;
     }
 
+    async function handleCopy() {
+        await copyToClipboard(password as string);
+        isCopying = true;
+        setTimeout(() => {
+            isCopying = false;
+        }, 1000);
+    }
+
 </script>
   
   <!--shit's a mess-->
@@ -99,11 +108,15 @@
           <div class="flex-shrink-0 w-6 flex justify-between">
               {#if buttonPressed}
               <button 
-                  class="hover:text-indigo-400 transition-colors duration-150"
-                  on:click={() => copyToClipboard(password as string)}
+                  class=""
+                  on:click={handleCopy}
                   title="Copy to clipboard"
               >
-                  <Copy size={16} />
+                  {#if isCopying}
+                      <span class="text-green-300 transition-colors duration-150"><Check size={16}/></span>
+                  {:else}
+                      <span class="hover:text-indigo-400 transition-colors duration-150"><Copy size={16}/></span>
+                  {/if}
               </button>
               {/if}
           </div>
