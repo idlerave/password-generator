@@ -38,5 +38,8 @@
 		"@neodrag/svelte": "^2.3.1",
 		"lucide-svelte": "^0.476.0",
 		"svelte-range-slider-pips": "^3.2.2"
+	},
+	"optionalDependencies": {
+		"@rollup/rollup-linux-x64-gnu": "4.9.0"
 	}
 }
