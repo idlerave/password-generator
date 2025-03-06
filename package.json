@@ -35,6 +35,8 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
-		"lucide-svelte": "^0.476.0"
+		"@neodrag/svelte": "^2.3.1",
+		"lucide-svelte": "^0.476.0",
+		"svelte-range-slider-pips": "^3.2.2"
 	}
 }

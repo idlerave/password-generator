@@ -2,12 +2,13 @@
     import { onMount } from "svelte";
     import { generatePassword } from "$lib/components/Generator";
     import { Github, Settings, Copy, Check } from 'lucide-svelte';
-    import { slide, fade, crossfade } from 'svelte/transition';
+    import { slide } from 'svelte/transition';
     import { copyToClipboard } from "$lib/components/Clipboard";
+    import RangeSlider from 'svelte-range-slider-pips';
 
     // You can guess what this is.
     let password: String;
-    let passwordLength = 12;
+    let passwordLength = 8;
     let buttonPressed = false;
     let uppercase = true;
     let lowercase = true;
@@ -16,6 +17,9 @@
     let isDropdownOpen = false;
     let dropdownElement: HTMLElement;
     let isCopying = false;
+    let values = [passwordLength];
+
+    $: passwordLength = values[0];
   
     // If the button hasn't been pressed,
     // this will act as a placeholder for the password.
@@ -121,7 +125,17 @@
               {/if}
           </div>
       </div>
-        <input type="range" min="8" max="32" bind:value={passwordLength} class="w-full slider" />
+        <div class="w-full px-2 mt-4">
+            <RangeSlider
+                bind:values
+                min={8}
+                max={32}
+                step={1}
+                pips
+                first="label"
+                last="label"
+            />
+        </div>
         <p class="text-gray-100 mt-5">Current meows: {passwordLength}</p>
 
         <div class="flex justify-center items-center mt-8 w-full relative">
@@ -147,54 +161,50 @@
               <div class="space-y-3">
                 <div class="flex items-center justify-between py-2 border-b border-gray-800">
                   <span class="text-sm font-medium text-gray-300">Uppercase</span>
-                  <div class="relative inline-block w-10 align-middle select-none">
-                    <input 
-                      type="checkbox" 
-                      id="toggle-uppercase" 
-                      class="toggle toggle-primary" 
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox"
                       bind:checked={uppercase}
                       on:change={() => validateOptions('uppercase')}
+                      class="sr-only peer"
                     />
-                  </div>
+                    <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500"></div>
+                  </label>
                 </div>
                 
                 <div class="flex items-center justify-between py-2 border-b border-gray-800">
                   <span class="text-sm font-medium text-gray-300">Lowercase</span>
-                  <div class="relative inline-block w-10 align-middle select-none">
-                    <input 
-                      type="checkbox" 
-                      id="toggle-lowercase" 
-                      class="toggle toggle-primary" 
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox"
                       bind:checked={lowercase}
                       on:change={() => validateOptions('lowercase')}
+                      class="sr-only peer"
                     />
-                  </div>
+                    <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500"></div>
+                  </label>
                 </div>
                 
                 <div class="flex items-center justify-between py-2 border-b border-gray-800">
                   <span class="text-sm font-medium text-gray-300">Numbers</span>
-                  <div class="relative inline-block w-10 align-middle select-none">
-                    <input 
-                      type="checkbox" 
-                      id="toggle-numbers" 
-                      class="toggle toggle-primary" 
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox"
                       bind:checked={numbers}
                       on:change={() => validateOptions('numbers')}
+                      class="sr-only peer"
                     />
-                  </div>
+                    <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500"></div>
+                  </label>
                 </div>
                 
                 <div class="flex items-center justify-between py-2">
                   <span class="text-sm font-medium text-gray-300">Symbols</span>
-                  <div class="relative inline-block w-10 align-middle select-none">
-                    <input 
-                      type="checkbox" 
-                      id="toggle-symbols" 
-                      class="toggle toggle-primary" 
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox"
                       bind:checked={symbols}
                       on:change={() => validateOptions('symbols')}
+                      class="sr-only peer"
                     />
-                  </div>
+                    <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500"></div>
+                  </label>
                 </div>
               </div>
             </div>
@@ -216,21 +226,38 @@
 
 
   <style>
+    :global(.rangeSlider) {
+        --pip-text-color: #9CA3AF;
+        --pip-active-text-color: #818cf8;
+        --range-bg: #374151;
+        --handle-bg: #6366f1;
+        --handle-border: 2px solid #4B5563;
+    }
+
+    :global(.rangeSlider .pip.selected) {
+        color: #818cf8 !important;
+    }
+
+    :global(.rangeSlider .pip) {
+        transition: color 0.2s ease;
+    }
+
     .hover-text {
-      display: inline-block;
-      cursor: default;
+        display: inline-block;
+        cursor: default;
     }
     
     .hover-text span {
-      display: inline-block;
-      transition: color 150ms ease;
+        display: inline-block;
+        transition: color 150ms ease;
     }
     
     .hover-text span:hover {
-      color: #ffffff;
+        color: #ffffff;
     }
-  
+    
     .hover-text span:hover + span {
-      color: #e7e7e7;
+        color: #e7e7e7;
     }
+    
   </style>
