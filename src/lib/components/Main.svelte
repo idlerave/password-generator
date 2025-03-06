@@ -21,22 +21,22 @@
     // this will act as a placeholder for the password.
     if (buttonPressed === false)
     {
-      password = "Click on da cat!";
+      password = "Clicka da cat!";
     }
   
     // Generates a cryptographically sound password using Generator.ts.
     function generate() {
-    password = generatePassword(passwordLength, {
-        length: passwordLength,
-        uppercase,
-        lowercase,
-        numbers,
-        symbols
-    });
-    buttonPressed = true;
-}
+      password = generatePassword(passwordLength, {
+          length: passwordLength,
+          uppercase,
+          lowercase,
+          numbers,
+          symbols
+      });
+      buttonPressed = true;
+    }
   
-    // Makes the icon "undownloadable". Idk, just a pet peeve, really.
+    // Makes the icon "undraggable". Idk, just a pet peeve, really.
     function disableRightClick(event: MouseEvent) {
       event.preventDefault();
     }
@@ -131,7 +131,7 @@
               class:rotate-180={isDropdownOpen}
               on:click|stopPropagation={toggleDropdown}
             >
-            <Settings class="h-4 w-4 text-white hover:text-gray-300 transition-colors duration-300"/>
+            <Settings class="h-5 w-5 text-white hover:text-gray-300 transition-colors duration-300"/>
             </button>
             
             {#if isDropdownOpen}
